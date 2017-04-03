@@ -1,9 +1,9 @@
 package tvtracker;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -57,9 +57,9 @@ public class MovieController {
         return "deletion successful";
     }
 
-//    @RequestMapping("/movies/readAllBeforeYear")
-//    public List<Movie> getMoviesBeforeYear(@RequestParam(value = "year") int year) {
-//        List<Movie> movies = repo.findByYearLessThan(year);
-//        return movies;
-//    }
+    @RequestMapping("/movies/readAllBeforeYear")
+    public List<Movie> getMoviesBeforeYear(@RequestParam(value = "year") int year) {
+        List<Movie> movies = repo.findByYearLessThan(year);
+        return movies;
+    }
 }
