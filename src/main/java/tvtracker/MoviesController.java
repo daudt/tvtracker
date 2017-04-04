@@ -16,8 +16,7 @@ public class MoviesController {
     // CREATE
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public Movie createMovie(@Valid @RequestBody Movie jsonString) {
-        Movie movie = new Movie(jsonString.getTitle(), jsonString.getYear());
+    public Movie createMovie(@Valid @RequestBody Movie movie) {
         return repo.save(movie);
     }
 
@@ -25,12 +24,7 @@ public class MoviesController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Movie getOneMovie(@PathVariable long id) {
-        Movie movie = repo.findOne(id);
-        if(movie != null) {
-            return movie;
-        } else {
-            throw new MovieNotFoundException(id);
-        }
+        return getMovie(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -43,15 +37,11 @@ public class MoviesController {
     // UPDATE
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public Movie updateMovie(@PathVariable long id, @Valid @RequestBody Movie jsonString) {
-        Movie movie = repo.findOne(id);
-        if(movie != null) {
-            movie.setTitle(jsonString.getTitle());
-            movie.setYear(jsonString.getYear());
-            return repo.save(movie);
-        } else {
-            throw new MovieNotFoundException(id);
-        }
+    public Movie updateMovie(@PathVariable long id, @Valid @RequestBody Movie newMovie) {
+        Movie movie = getMovie(id);
+        movie.setTitle(newMovie.getTitle());
+        movie.setYear(newMovie.getYear());
+        return repo.save(movie);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
@@ -79,12 +69,17 @@ public class MoviesController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity deleteMovie(@PathVariable long id) {
+        repo.delete(getMovie(id));
+        return ResponseEntity.noContent().build();
+    }
+
+
+    private Movie getMovie(long id) {
         Movie movie = repo.findOne(id);
         if(movie != null) {
-            repo.delete(id);
+            return movie;
         } else {
             throw new MovieNotFoundException(id);
         }
-        return ResponseEntity.noContent().build();
     }
 }

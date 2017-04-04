@@ -6,10 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "movies")
-public class Movie {
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
