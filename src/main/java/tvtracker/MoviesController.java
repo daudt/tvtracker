@@ -1,6 +1,7 @@
 package tvtracker;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class MoviesController {
     // CREATE
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public Movie createMovie(@Valid @RequestBody Movie movie) {
-        return repo.save(movie);
+    public ResponseEntity<Movie> createMovie(@Valid @RequestBody Movie movie) {
+        return new ResponseEntity<>(repo.save(movie), HttpStatus.CREATED);
     }
 
     // READ
