@@ -19,7 +19,7 @@ public class Movie implements Serializable {
     private String title;
 
     @NotNull
-    private int year;
+    private Integer year;
 
     public Movie() {}
 
