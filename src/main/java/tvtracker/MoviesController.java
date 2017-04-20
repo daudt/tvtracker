@@ -79,8 +79,7 @@ public class MoviesController {
         Movie movie = repo.findOne(id);
         if(movie != null) {
             return movie;
-        } else {
-            throw new MovieNotFoundException(id);
         }
+        throw new MovieNotFoundException(id);
     }
 }
