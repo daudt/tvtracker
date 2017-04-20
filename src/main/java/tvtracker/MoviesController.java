@@ -11,8 +11,12 @@ import javax.validation.Valid;
 @RequestMapping(value = "/movies")
 public class MoviesController {
 
-    @Autowired
     private IMovieRepository repo;
+
+    @Autowired
+    public MoviesController(IMovieRepository repo) {
+        this.repo = repo;
+    }
 
     // CREATE
     @RequestMapping(method = RequestMethod.POST)
