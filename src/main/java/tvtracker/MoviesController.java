@@ -1,11 +1,14 @@
 package tvtracker;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -34,8 +37,11 @@ public class MoviesController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<Movie> getAllMovies() {
-        return repo.findAll();
+    public Resources<MovieResource> getAllMovies() {
+        List<MovieResource> movieResourceList = repo
+                .findAll().stream().map(MovieResource::new)
+                .collect(Collectors.toList());
+        return new Resources<>(movieResourceList);
     }
 
 
