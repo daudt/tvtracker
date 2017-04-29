@@ -1,4 +1,4 @@
-package tvtracker;
+package tvtracker.model;
 
 import lombok.Data;
 import javax.persistence.Entity;
